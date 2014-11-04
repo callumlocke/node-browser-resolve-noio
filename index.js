@@ -79,7 +79,7 @@ function find_shims_in_package(pkgJson, cur_path, shims) {
 
 // paths is mutated
 // load shims from first package.json file found
-function load_shims(paths, cb) {
+function load_shims(paths, readFile, cb) {
     // identify if our file should be replaced per the browser field
     // original filename|id -> replacement
     var shims = {};
@@ -92,7 +92,7 @@ function load_shims(paths, cb) {
 
         var pkg_path = path.join(cur_path, 'package.json');
 
-        fs.readFile(pkg_path, 'utf8', function(err, data) {
+        readFile(pkg_path, 'utf8', function(err, data) {
             if (err) {
                 // ignore paths we can't open
                 // avoids an exists check
@@ -172,16 +172,19 @@ function build_resolve_opts(opts, base) {
 
             info.main = replace_main || info.main;
             return info;
-        }
+        },
+        readFile: opts.readFile,
+        isFile: opts.isFile
     };
 }
 
 function resolve(id, opts, cb) {
-
     // opts.filename
     // opts.paths
     // opts.modules
     // opts.packageFilter
+    // opts.readFile
+    // opts.isFile (only for passing through to resolve)
 
     opts = opts || {};
 
@@ -196,8 +199,10 @@ function resolve(id, opts, cb) {
         return path.dirname(p);
     });
 
+    var readFile = opts.readFile || fs.readFile;
+
     // we must always load shims because the browser field could shim out a module
-    load_shims(paths, function(err, shims) {
+    load_shims(paths, readFile, function(err, shims) {
         if (err) {
             return cb(err);
         }
@@ -278,4 +283,3 @@ resolve.sync = function (id, opts) {
 };
 
 module.exports = resolve;
-
