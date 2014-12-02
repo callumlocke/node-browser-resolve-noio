@@ -1,4 +1,6 @@
-# browser-resolve [![Build Status](https://travis-ci.org/defunctzombie/node-browser-resolve.png?branch=master)](https://travis-ci.org/defunctzombie/node-browser-resolve)
+# browser-resolve-noio [![Build Status](https://travis-ci.org/defunctzombie/node-browser-resolve.png?branch=master)](https://travis-ci.org/defunctzombie/node-browser-resolve)
+
+> This is an experimental fork of [browser-resolve](https://github.com/defunctzombie/node-browser-resolve), that accepts hooks for `readFile` and `isFile`, preventing the module from accessing the disk directly.
 
 node.js resolve algorithm with [browser](https://gist.github.com/defunctzombie/4339901) field support.
 

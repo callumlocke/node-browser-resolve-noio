@@ -1,5 +1,5 @@
 {
-  "name": "browser-resolve",
+  "name": "browser-resolve-noio",
   "version": "1.4.1",
   "description": "resolve which handles browser field support in package.json",
   "main": "index.js",
